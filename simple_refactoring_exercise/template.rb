@@ -1,26 +1,15 @@
 module Template
+
   def template(source_template, req_id)
-    template = String.new(source_template)
-
-    # Substitute for %CODE%
-    template_split_begin = template.index("%CODE%")
-    template_split_end = template_split_begin + 6
-    template_part_one =
-      String.new(template[0..(template_split_begin-1)])
-    template_part_two =
-      String.new(template[template_split_end..template.length])
-    code = String.new(req_id)
-    template =
-      String.new(template_part_one + code + template_part_two)
-
-    # Substitute for %ALTCODE%
-    template_split_begin = template.index("%ALTCODE%")
-    template_split_end = template_split_begin + 9
-    template_part_one =
-      String.new(template[0..(template_split_begin-1)])
-    template_part_two =
-      String.new(template[template_split_end..template.length])
-    altcode = code[0..4] + "-" + code[5..7]
-    template_part_one + altcode + template_part_two
+    code_key_substitution = source_template.gsub!(/%CODE%/, req_id)
+    alternate_code = required_id_formatter(req_id).slice(0..-3).insert(5,'-')
+    alt_key_substitition = code_key_substitution.gsub(/%ALTCODE%/, alternate_code)
+  end
+  #Comments code smell Substitute for %CODE%/# Substitute for %ALTCODE%
+  #Duplicated Code smell 7 different String.new calls
+  #Added new method to format required ID to 10 digits, to ensure code does not break and output format will always be 56789-012
+  #Made code more DRY
+  def required_id_formatter(req_id)
+    req_id.length > 10 ? req_id.slice(0..9-req_id.length) : req_id.ljust(10,'0')
   end
 end
