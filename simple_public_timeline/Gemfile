@@ -4,6 +4,9 @@ gem 'sinatra'
 gem 'slim'
 
 group :development, :test do
-	gem 'rspec'
-	gem 'capybara'
+  gem "minitest", "~> 2.10"
+  gem "rack-test", "~> 0.6.1"
+  gem "capybara", "~> 1.1"
+  gem "capybara-webkit", "~> 0.11"
+  gem "capybara_minitest_spec", "~> 0.2"
 end

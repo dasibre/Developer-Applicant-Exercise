@@ -1,6 +1,6 @@
-require 'bundler/setup'
-require 'sinatra'
-Sinatra::Application.environment = :test
-Bundler.require :default, Sinatra::Application.environment
+ENV['RACK_ENV'] = 'test'
+require_relative '../lib/time_line'
 require 'rspec'
-# require File.dirname(__FILE__) + '/../config/boot'
+require 'capybara/rspec'
+require 'slim'
+Capybara.app = TimeLine
